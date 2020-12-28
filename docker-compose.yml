@@ -7,16 +7,16 @@ services:
     restart: always
     build: .
     ports:
-      - "$PORT:$PORT"
+      - 3000:3000
     links:
       - postgres
   postgres:
-    image: postgres
+    image: postgres:13
     restart: always
-    environment:
-      DB_PASSWORD: postgres
+    env_file:
+      - .development.env
     ports:
-      - "5433:5432"
+      - 5432:5432
     volumes:
       - ./db-data:/var/lib/postgresql/data
   adminer:
