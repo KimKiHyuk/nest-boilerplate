@@ -41,13 +41,16 @@ async function bootstrap() {
 
     const reflector = app.get(Reflector);
 
+    // 전역 에외처리 필터
     app.useGlobalFilters(
         new HttpExceptionFilter(reflector),
         new QueryFailedFilter(reflector),
     );
 
+    // 자동 시리얼라이징
     app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
 
+    // 모든 요청에 대한 기본적인 벨리데이션 진행
     app.useGlobalPipes(
         new ValidationPipe({
             whitelist: true,

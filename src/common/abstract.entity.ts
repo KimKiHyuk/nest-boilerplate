@@ -1,6 +1,7 @@
 'use strict';
 
 import {
+    BaseEntity,
     CreateDateColumn,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
@@ -9,7 +10,9 @@ import {
 import { UtilsService } from '../providers/utils.service';
 import { AbstractDto } from './dto/AbstractDto';
 
-export abstract class AbstractEntity<T extends AbstractDto = AbstractDto> {
+export abstract class AbstractEntity<
+    T extends AbstractDto = AbstractDto
+> extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
