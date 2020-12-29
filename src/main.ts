@@ -1,6 +1,5 @@
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
-import { Transport } from '@nestjs/microservices';
 import {
     ExpressAdapter,
     NestExpressApplication,
@@ -62,16 +61,18 @@ async function bootstrap() {
 
     const configService = app.select(SharedModule).get(ConfigService);
 
-    app.connectMicroservice({
-        transport: Transport.TCP,
-        options: {
-            port: configService.getNumber('TRANSPORT_PORT'),
-            retryAttempts: 5,
-            retryDelay: 3000,
-        },
-    });
+    // 마이크로서비스 예제, math 참고
+    // import { Transport } from '@nestjs/microservices';
+    // app.connectMicroservice({
+    //     transport: Transport.TCP,
+    //     options: {
+    //         port: configService.getNumber('TRANSPORT_PORT'),
+    //         retryAttempts: 5,
+    //         retryDelay: 3000,
+    //     },
+    // });
 
-    await app.startAllMicroservicesAsync();
+    // await app.startAllMicroservicesAsync();
 
     if (['development', 'staging'].includes(configService.nodeEnv)) {
         setupSwagger(app);
