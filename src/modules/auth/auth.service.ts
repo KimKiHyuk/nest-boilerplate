@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
+import { PasswordWrongException } from '../../exceptions/password-wrong.exception';
 import { UserNotFoundException } from '../../exceptions/user-not-found.exception';
 import { ContextService } from '../../providers/context.service';
 import { UtilsService } from '../../providers/utils.service';
@@ -36,9 +37,14 @@ export class AuthService {
             userLoginDto.password,
             user && user.password,
         );
-        if (!user || !isPasswordValid) {
+
+        if (!user) {
             throw new UserNotFoundException();
         }
+        if (!isPasswordValid) {
+            throw new PasswordWrongException();
+        }
+
         return user;
     }
 
