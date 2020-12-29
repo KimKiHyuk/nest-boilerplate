@@ -1,28 +1,21 @@
-# Awesome NestJS v7 Boilerplate
+# Nest.js boilerplate
+
+powered by
 
 [![Awesome NestJS](https://img.shields.io/badge/Awesome-NestJS-blue.svg?longCache=true&style=flat-square)](https://github.com/juliandavidmr/awesome-nestjs)
 
-> This is an ever-evolving, very opinionated architecture and dev environment for new node projects using [NestJS](https://nestjs.com). Questions, feedback, and for now, even bikeshedding are welcome. 😄
 
 ## Getting started
+* yarn start debug:dev
+* yarn start dev:admin
 
-```bash
-# 1. Clone the repository or click on "Use this template" button.
-git clone https://github.com/NarHakobyan/awesome-nest-boilerplate.git my-new-project
 
-# 2. Enter your newly-cloned folder.
-cd my-new-project
-
-# 3. Install dependencies. (Make sure yarn is installed: https://yarnpkg.com/lang/en/docs/install)
-yarn
-
-# 4. Run development server and open http://localhost:3000
-yarn start:dev
 
 # 5. Read the documentation linked below for "Setup and development".
 ```
 
 ## Features
+* admin with admin-bro
 
 <dl>
   <dt><b>Quick scaffolding</b></dt>
