@@ -1,4 +1,4 @@
-version: "3"
+version: "3.9"
 services:
   app:
     env_file:
@@ -18,9 +18,8 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./db-data:/var/lib/postgresql/data
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+      - db-data:/var/lib/postgresql/data
+      - ./scripts/init-db-script.sh:/docker-entrypoint-initdb.d/init-db-script.sh
+volumes:
+  db-data:
+

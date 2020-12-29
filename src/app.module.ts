@@ -36,6 +36,7 @@ import { SharedModule } from './shared/shared.module';
             inject: [ConfigService],
         }),
     ],
+    providers: [],
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer): MiddlewareConsumer | void {
