@@ -5,23 +5,22 @@ import {
     HttpCode,
     HttpStatus,
     Post,
-    UploadedFile,
+    Query,
     UseGuards,
     UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
 import {
     ApiBearerAuth,
-    ApiConsumes,
+    ApiHeader,
     ApiOkResponse,
+    ApiQuery,
     ApiTags,
 } from '@nestjs/swagger';
 
 import { AuthUser } from '../../decorators/auth-user.decorator';
-import { ApiFile } from '../../decorators/swagger.schema';
+import { EmailVerifyException } from '../../exceptions/common-exceptions';
 import { AuthGuard } from '../../guards/auth.guard';
 import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.service';
-import { IFile } from '../../interfaces/IFile';
 import { UserDto } from '../user/dto/UserDto';
 import { UserEntity } from '../user/user.entity';
 import { UserService } from '../user/user.service';
@@ -34,8 +33,8 @@ import { UserRegisterDto } from './dto/UserRegisterDto';
 @ApiTags('auth')
 export class AuthController {
     constructor(
-        public readonly userService: UserService,
-        public readonly authService: AuthService,
+        private readonly _userService: UserService,
+        private readonly _authService: AuthService,
     ) {}
 
     @Post('login')
@@ -47,37 +46,48 @@ export class AuthController {
     async userLogin(
         @Body() userLoginDto: UserLoginDto,
     ): Promise<LoginPayloadDto> {
-        const userEntity = await this.authService.validateUser(userLoginDto);
+        const userEntity = await this._authService.validateUser(userLoginDto);
 
-        const token = await this.authService.createToken(userEntity);
+        const token = await this._authService.createToken(userEntity);
         return new LoginPayloadDto(userEntity.toDto(), token);
     }
 
     @Post('register')
     @HttpCode(HttpStatus.OK)
     @ApiOkResponse({ type: UserDto, description: 'Successfully Registered' })
-    @ApiConsumes('multipart/form-data')
-    @ApiFile('avatar')
-    @UseInterceptors(FileInterceptor('avatar'))
     async userRegister(
         @Body() userRegisterDto: UserRegisterDto,
-        @UploadedFile() file: IFile,
     ): Promise<UserDto> {
-        const createdUser = await this.userService.createUser(
-            userRegisterDto,
-            file,
-        );
+        const createdUser = await this._userService.createUser(userRegisterDto);
 
         return createdUser.toDto();
     }
 
     @Get('me')
     @HttpCode(HttpStatus.OK)
+    @ApiHeader({
+        name: 'Authorization',
+        description: 'Bearer <JWT>',
+    })
+    @ApiBearerAuth('JWT')
     @UseGuards(AuthGuard)
     @UseInterceptors(AuthUserInterceptor)
-    @ApiBearerAuth()
     @ApiOkResponse({ type: UserDto, description: 'current user info' })
     getCurrentUser(@AuthUser() user: UserEntity) {
+        return user.toDto();
+    }
+
+    @Post('verify')
+    @HttpCode(HttpStatus.OK)
+    @ApiQuery({ name: 'uuid' })
+    @ApiOkResponse()
+    async verifyUserByEmail(@Query('uuid') uuid) {
+        const user = await this._userService.findOne(uuid);
+
+        if (!user) {
+            throw new EmailVerifyException();
+        }
+
         return user.toDto();
     }
 }
