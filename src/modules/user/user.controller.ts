@@ -45,6 +45,7 @@ export class UserController {
                 lang: 'en',
             },
         );
+
         return `${translation} ${user.firstName}`;
     }
 
