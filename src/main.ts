@@ -59,6 +59,8 @@ async function bootstrap() {
         }),
     );
 
+    app.setGlobalPrefix('v1');
+
     const configService = app.select(SharedModule).get(ConfigService);
 
     // 마이크로서비스 예제, math 참고

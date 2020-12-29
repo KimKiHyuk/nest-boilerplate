@@ -10,6 +10,7 @@
         "start:hmr": "node dist/main.hmr.ts",
         "start:dev": "NODE_ENV=development ts-node src/main.ts",
         "start:prod": "NODE_ENV=production node dist/main.js",
+        "start:admin": "ts-node src/admin",
         "typeorm": "ts-node node_modules/typeorm/cli.js  -f ormconfig",
         "migration:generate": "yarn run typeorm migration:generate -d src/migrations -n",
         "migration:create": "yarn run typeorm migration:create -d src/migrations -n",
@@ -30,6 +31,7 @@
         "docs:deploy": "yarn docs:build && gh-pages -d .vuepress/dist"
     },
     "dependencies": {
+        "@admin-bro/express": "^3.0.1",
         "@nestjs/common": "^7.4.3",
         "@nestjs/core": "^7.4.3",
         "@nestjs/jwt": "^7.1.0",
@@ -38,6 +40,7 @@
         "@nestjs/platform-express": "^7.4.3",
         "@nestjs/swagger": "^4.6.0",
         "@nestjs/typeorm": "^7.1.1",
+        "admin-bro": "^3.3.1",
         "aws-sdk": "^2.742.0",
         "bcrypt": "^5.0.0",
         "class-transformer": "^0.3.1",
@@ -45,6 +48,7 @@
         "compression": "^1.7.4",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
+        "express-formidable": "^1.2.0",
         "express-rate-limit": "^5.1.3",
         "file-type": "^15.0.0",
         "helmet": "^4.1.0",
