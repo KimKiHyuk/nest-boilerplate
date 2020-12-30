@@ -59,4 +59,8 @@ export class UtilsService {
     static validateHash(password: string, hash: string): Promise<boolean> {
         return bcrypt.compare(password, hash || '');
     }
+
+    static getNowUnixTime(): number {
+        return Math.floor(Date.now() / 1000);
+    }
 }

@@ -57,4 +57,9 @@ export class UserService {
 
         return new UsersPageDto(users.toDtos(), pageMetaDto);
     }
+
+    async updateUser(userDto: UserEntity): Promise<UserEntity> {
+        userDto.emailVerified = true;
+        return this.userRepository.save(userDto);
+    }
 }

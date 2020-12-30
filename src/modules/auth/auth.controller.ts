@@ -7,7 +7,6 @@ import {
     Post,
     Query,
     UseGuards,
-    UseInterceptors,
 } from '@nestjs/common';
 import {
     ApiBearerAuth,
@@ -18,9 +17,8 @@ import {
 } from '@nestjs/swagger';
 
 import { AuthUser } from '../../decorators/auth-user.decorator';
-import { EmailVerifyException } from '../../exceptions/common-exceptions';
+import { EmailVerifyException } from '../../exceptions/email-exceptions';
 import { AuthGuard } from '../../guards/auth.guard';
-import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.service';
 import { UserDto } from '../user/dto/UserDto';
 import { UserEntity } from '../user/user.entity';
 import { UserService } from '../user/user.service';
@@ -71,13 +69,12 @@ export class AuthController {
     })
     @ApiBearerAuth('JWT')
     @UseGuards(AuthGuard)
-    @UseInterceptors(AuthUserInterceptor)
     @ApiOkResponse({ type: UserDto, description: 'current user info' })
     getCurrentUser(@AuthUser() user: UserEntity) {
         return user.toDto();
     }
 
-    @Post('verify')
+    @Get('verify')
     @HttpCode(HttpStatus.OK)
     @ApiQuery({ name: 'uuid' })
     @ApiOkResponse()
@@ -88,6 +85,8 @@ export class AuthController {
             throw new EmailVerifyException();
         }
 
-        return user.toDto();
+        const updated = await this._userService.updateUser(user);
+
+        return updated.toDto();
     }
 }

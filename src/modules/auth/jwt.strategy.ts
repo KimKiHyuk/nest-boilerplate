@@ -2,6 +2,8 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
+import { TokenExpiredException } from '../../exceptions/token-expire-exceptions';
+import { UtilsService } from '../../providers/utils.service';
 import { ConfigService } from '../../shared/services/config.service';
 import { UserService } from '../user/user.service';
 
@@ -17,11 +19,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         });
     }
 
-    async validate({ iat, exp, id: userId }) {
-        const timeDiff = exp - iat;
+    async validate({ exp, id: userId }) {
+        const timeDiff = exp - UtilsService.getNowUnixTime();
+
+        console.info('무야호');
         if (timeDiff <= 0) {
-            throw new UnauthorizedException();
+            throw new TokenExpiredException();
         }
+
         const user = await this.userService.findOne(userId);
 
         if (!user) {

@@ -2,7 +2,6 @@ import {
     EntitySubscriberInterface,
     EventSubscriber,
     InsertEvent,
-    UpdateEvent,
 } from 'typeorm';
 
 import { UserEntity } from '../../modules/user/user.entity';
@@ -15,13 +14,6 @@ export class UserSubscriber implements EntitySubscriberInterface<UserEntity> {
     }
     beforeInsert(event: InsertEvent<UserEntity>) {
         if (event.entity.password) {
-            event.entity.password = UtilsService.generateHash(
-                event.entity.password,
-            );
-        }
-    }
-    beforeUpdate(event: UpdateEvent<UserEntity>) {
-        if (event.entity.password !== event.databaseEntity.password) {
             event.entity.password = UtilsService.generateHash(
                 event.entity.password,
             );
