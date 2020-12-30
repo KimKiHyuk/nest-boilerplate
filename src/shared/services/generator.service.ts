@@ -9,4 +9,7 @@ export class GeneratorService {
     public fileName(ext: string): string {
         return this.uuid() + '.' + ext;
     }
+
+    public jwtExpireUnixTime = (expiresIn: number) =>
+        Math.floor(Date.now() / 1000) + expiresIn;
 }

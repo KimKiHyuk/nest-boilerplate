@@ -6,6 +6,7 @@ import { UserNotFoundException } from '../../exceptions/user-not-found.exception
 import { ContextService } from '../../providers/context.service';
 import { UtilsService } from '../../providers/utils.service';
 import { ConfigService } from '../../shared/services/config.service';
+import { GeneratorService } from '../../shared/services/generator.service';
 import { UserDto } from '../user/dto/UserDto';
 import { UserEntity } from '../user/user.entity';
 import { UserService } from '../user/user.service';
@@ -20,14 +21,18 @@ export class AuthService {
         public readonly jwtService: JwtService,
         public readonly configService: ConfigService,
         public readonly userService: UserService,
+        public readonly generateService: GeneratorService,
     ) {}
 
     async createToken(user: UserEntity | UserDto): Promise<TokenPayloadDto> {
-        const expiresIn = this.configService.getNumber('JWT_EXPIRATION_TIME');
+        const exp = this.generateService.jwtExpireUnixTime(
+            this.configService.getNumber('JWT_EXPIRATION_TIME'),
+        );
+
         return new TokenPayloadDto({
-            expiresIn,
+            expiresIn: exp,
             accessToken: await this.jwtService.signAsync({
-                expiresIn,
+                exp,
                 id: user.id,
             }),
         });
