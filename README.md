@@ -6,9 +6,16 @@ powered by
 
 
 ## Getting started
-* yarn start debug:dev
-* yarn start dev:admin
+* yarn install
+
+* yarn run start:dev
+* yarn run start:admin
 
 
 ## features
 * Admin
+
+
+## Debug
+* yarn run debug:dev
+* F5 // Only for vscode (you have to assign 9229 debugging port in .vscode)
