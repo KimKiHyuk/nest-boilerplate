@@ -5,7 +5,7 @@
     "author": "Narek Hakobyan <narek.hakobyan.07@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "build:prod": "tsc -p tsconfig.build.json",
+        "build:prod": "yarn tsc -p tsconfig.build.json",
         "postbuild:prod": "copyfiles --up 1 src/**/*.json dist",
         "start:hmr": "node dist/main.hmr.ts",
         "start:dev": "NODE_ENV=development ts-node src/main.ts",
