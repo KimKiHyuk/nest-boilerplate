@@ -1,30 +1,21 @@
-FROM node:dubnium AS dist
-COPY package.json yarn.lock ./
+FROM node:14.15.3-alpine3.10 AS builder
 
-RUN yarn install
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
 COPY . ./
 
-RUN yarn build
+RUN yarn install && \
+    yarn run build:prod
 
-FROM node:dubnium AS node_modules
-COPY package.json yarn.lock ./
+FROM node:14.15.3-alpine3.10
 
-RUN yarn install --prod
+RUN mkdir -p /usr/src/prod
+WORKDIR /usr/src/prod
 
-FROM node:dubnium
+COPY --from=builder /usr/src/app/.production.env /usr/src/prod
+COPY --from=builder /usr/src/app/dist /usr/src/prod/dist
+COPY --from=builder /usr/src/app/node_modules /usr/src/prod/node_modules
 
-ARG PORT=3000
-
-RUN mkdir -p /usr/src/app
-
-WORKDIR /usr/src/app
-
-COPY --from=dist dist /usr/src/app/dist
-COPY --from=node_modules node_modules /usr/src/app/node_modules
-
-COPY . /usr/src/app
-
-EXPOSE $PORT
-
-CMD [ "yarn", "start:prod" ]
+ENV NODE_ENV=production
+CMD [ "node", "dist/main.js" ]
