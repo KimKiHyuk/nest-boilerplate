@@ -21,8 +21,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     async validate({ exp, id: userId }) {
         const timeDiff = exp - UtilsService.getNowUnixTime();
-
-        console.info('무야호');
         if (timeDiff <= 0) {
             throw new TokenExpiredException();
         }

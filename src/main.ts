@@ -86,6 +86,7 @@ async function bootstrap() {
     const port = configService.getNumber('PORT');
     await app.listen(port);
 
+    console.info(`you're in ${configService.nodeEnv} mode`);
     console.info(`server running on port ${port}`);
 }
 
