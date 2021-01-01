@@ -8,18 +8,17 @@ services:
     build: .
     ports:
       - 3000:3000
-    links:
-      - postgres
-  postgres:
-    image: postgres:13
-    restart: always
-    env_file:
-      - .development.env
-    ports:
-      - 5432:5432
-    volumes:
-      - db-data:/var/lib/postgresql/data
-      - ./scripts/init-db-script.sh:/docker-entrypoint-initdb.d/init-db-script.sh
-volumes:
-  db-data:
 
+  # postgres:
+  #   image: postgres:13
+  #   restart: always
+  #   env_file:
+  #     - .development.env
+  #   ports:
+  #     - 5432:5432
+  #   volumes:
+  #     - db-data:/var/lib/postgresql/data
+  #     - ./scripts/init-db-script.sh:/docker-entrypoint-initdb.d/init-db-script.sh
+
+# volume:
+  # db-data:
