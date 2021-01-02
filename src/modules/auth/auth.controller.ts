@@ -4,6 +4,7 @@ import {
     Get,
     HttpCode,
     HttpStatus,
+    ParseUUIDPipe,
     Post,
     Query,
     UseGuards,
@@ -12,13 +13,14 @@ import {
     ApiBearerAuth,
     ApiHeader,
     ApiOkResponse,
-    ApiQuery,
     ApiTags,
 } from '@nestjs/swagger';
 
 import { AuthUser } from '../../decorators/auth-user.decorator';
+import { User } from '../../decorators/user-decorator';
 import { EmailVerifyException } from '../../exceptions/email-exceptions';
 import { AuthGuard } from '../../guards/auth.guard';
+import { UserGuard } from '../../guards/user.guard';
 import { UserDto } from '../user/dto/UserDto';
 import { UserEntity } from '../user/user.entity';
 import { UserService } from '../user/user.service';
@@ -76,11 +78,12 @@ export class AuthController {
 
     @Get('verify')
     @HttpCode(HttpStatus.OK)
-    @ApiQuery({ name: 'uuid' })
     @ApiOkResponse()
-    async verifyUserByEmail(@Query('uuid') uuid) {
-        const user = await this._userService.findOne(uuid);
-
+    @UseGuards(UserGuard)
+    async verifyUserByEmail(
+        @Query('uuid', ParseUUIDPipe) uuid: string,
+        @User('uuid') user: UserEntity,
+    ) {
         if (!user) {
             throw new EmailVerifyException();
         }
