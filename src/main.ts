@@ -1,4 +1,8 @@
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import {
+    ClassSerializerInterceptor,
+    Logger,
+    ValidationPipe,
+} from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import {
     ExpressAdapter,
@@ -26,8 +30,9 @@ async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(
         AppModule,
         new ExpressAdapter(),
-        { cors: true },
+        { cors: true, logger: ['error', 'warn', 'debug', 'log', 'verbose'] },
     );
+
     app.enable('trust proxy'); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
     app.use(helmet());
     app.use(
@@ -86,8 +91,8 @@ async function bootstrap() {
     const port = configService.getNumber('PORT');
     await app.listen(port);
 
-    console.info(`you're in ${configService.nodeEnv} mode`);
-    console.info(`server running on port ${port}`);
+    Logger.log(`you're in ${configService.nodeEnv} mode`);
+    Logger.log(`server running on port ${port}`);
 }
 
 void bootstrap();
