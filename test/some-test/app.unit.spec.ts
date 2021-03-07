@@ -2,9 +2,9 @@
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 
-import { AppModule } from '../src/app.module';
+import { AppModule } from '../../src/app.module';
 
-describe('AuthController (e2e)', () => {
+describe('Server health check', () => {
     let app;
 
     beforeEach(async () => {

@@ -25,7 +25,7 @@
         "test:watch": "jest --watch",
         "test:cov": "jest --coverage",
         "test:debug": "node --inspect-brk -r ts-node/register node_modules/.bin/jest --runInBand",
-        "test:e2e": "jest --config ./test/jest-e2e.json",
+        "test:unit": "jest --config ./test/jest-unit.json",
         "docs:dev": "vuepress dev -p 7070",
         "docs:build": "DEPLOY_ENV=gh-pages vuepress build",
         "docs:deploy": "yarn docs:build && gh-pages -d .vuepress/dist"
@@ -57,6 +57,7 @@
         "lodash": "^4.17.20",
         "mime-types": "^2.1.27",
         "morgan": "^1.10.0",
+        "mysql": "^2.18.1",
         "nestjs-i18n": "^8.0.8",
         "passport": "^0.4.1",
         "passport-jwt": "^4.0.0",

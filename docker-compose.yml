@@ -1,24 +1,16 @@
 version: "3.9"
 services:
-  app:
-    env_file:
-      - .development.env
-    container_name: awesome_nest_boilerplate
+  mysql:
+    image: mysql:5.7
     restart: always
-    build: .
+    environment:
+      MYSQL_DATABASE: 'development'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: '1q2w3e4r'
+      MYSQL_ROOT_PASSWORD: '1q2w3e4r'
     ports:
-      - 3000:3000
-
-  # postgres:
-  #   image: postgres:13
-  #   restart: always
-  #   env_file:
-  #     - .development.env
-  #   ports:
-  #     - 5432:5432
-  #   volumes:
-  #     - db-data:/var/lib/postgresql/data
-  #     - ./scripts/init-db-script.sh:/docker-entrypoint-initdb.d/init-db-script.sh
-
-# volume:
-  # db-data:
+      - 3306:3306
+    expose:
+      - '3306'
+    volumes:
+      - ./scripts/init-db-script.sh:/docker-entrypoint-initdb.d/init-db-script.sh
