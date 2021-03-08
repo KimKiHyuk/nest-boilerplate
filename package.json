@@ -22,6 +22,7 @@
         "lint": "eslint . --ext .ts",
         "lint:fix": "eslint --fix . --ext .ts",
         "test": "jest",
+        "ci": "yarn install --frozen-lockfile",
         "test:watch": "jest --watch",
         "test:cov": "jest --coverage",
         "test:unit:debug": "node --inspect-brk -r ts-node/register node_modules/.bin/jest --config ./test/jest-unit.json --forceExit --runInBand",
