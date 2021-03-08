@@ -29,4 +29,4 @@ jobs:
       name: Test Application
       run: |
         yarn run ci
-        yarn run test:dev:unit
+        yarn run test:unit
