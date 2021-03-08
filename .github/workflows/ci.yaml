@@ -1,0 +1,32 @@
+name: Development
+on:
+  release:
+    types:
+      - created
+  push:
+    branches:
+        "main"
+
+jobs:
+  UnitTest:
+    name: UnitTest
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [15.x]
+    steps:
+    -
+      name: Checkout
+      uses: actions/checkout@v1
+
+    -
+      name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    -
+      name: Test Application
+      run: |
+        yarn run ci
+        yarn run test:dev:unit
