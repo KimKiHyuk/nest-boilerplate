@@ -13,7 +13,7 @@ powered by
 
 
 ## features
-* Admin
+* Admin 기능 추가
 
 
 ## Debug
