@@ -72,7 +72,7 @@ export class ConfigService {
             entities,
             migrations,
             keepConnectionAlive: true,
-            type: 'mysql',
+            type: 'mariadb',
             host: this.get('DB_HOST'),
             port: this.getNumber('DB_PORT'),
             username: this.get('DB_USERNAME'),
