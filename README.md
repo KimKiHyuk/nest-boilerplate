@@ -6,14 +6,20 @@ powered by
 
 
 ## Getting started
+* NODE_ENV로 알맞은 개발환경을 설정합니다. (default : development)
 * yarn install
-
 * yarn run start:dev
-* yarn run start:admin
+* yarn run test:unit
+
+
+## Migration
+* yarn typeorm migration:generate -n migrations/<what-you-want>
+* yarn typeorm migration:run
+* yarn typeorm migration:show
 
 
 ## features
-* Admin 기능 추가
+* Admin 기능
 * 유닛 테스트 
 
 ## Debug
