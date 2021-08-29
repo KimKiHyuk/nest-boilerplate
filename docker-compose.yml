@@ -14,3 +14,17 @@ services:
       - '3306'
     volumes:
       - ./scripts/init-db-script.sh:/docker-entrypoint-initdb.d/init-db-script.sh
+  mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_DATABASE: 'development'
+      MARIADB_USER: 'user'
+      MARIADB_PASSWORD: '1q2w3e4r'
+      MARIADB_ROOT_PASSWORD: '1q2w3e4r'
+    ports:
+      - 3306:3306
+    expose:
+      - '3306'
+    volumes:
+      - ./scripts/init-db-script.sh:/docker-entrypoint-initdb.d/init-db-script.sh
