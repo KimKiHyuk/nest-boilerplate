@@ -2332,6 +2332,11 @@
     consola "^2.3.0"
     node-fetch "^2.3.0"
 
+"@olavoparno/jest-badges-readme@^1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@olavoparno/jest-badges-readme/-/jest-badges-readme-1.5.1.tgz#0ea187a1557ae597c55072716638c3d1dfba710b"
+  integrity sha512-7srGdj+rECGrWD5kfmS5suIUi+Ruh5X5zPdI1NWa39bKiq/0TNYG7yoWKty/IMk7WxI+G+tluhhmvgAR831eZQ==
+
 "@rollup/plugin-babel@^5.2.1":
   version "5.2.2"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-babel/-/plugin-babel-5.2.2.tgz#e5623a01dd8e37e004ba87f2de218c611727d9b2"
