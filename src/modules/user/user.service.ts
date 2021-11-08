@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { first, last } from 'lodash';
 import { FindConditions } from 'typeorm';
 
 import { AwsS3Service } from '../../shared/services/aws-s3.service';
@@ -61,5 +62,18 @@ export class UserService {
     async updateUser(userDto: UserEntity): Promise<UserEntity> {
         userDto.emailVerified = true;
         return this.userRepository.save(userDto);
+    }
+
+    // for Unittest demo, not works in real
+    async getKoreanUserNameByUserId(userId: number) {
+        const { firstName, lastName } = await this.userRepository.findOne(userId)
+        
+        // for demo jest.fn mocking
+        const { status }  = await this.awsS3Service.collectApiHit()
+        return {
+            name: lastName + firstName,
+            statusCode: status
+        }
+        
     }
 }

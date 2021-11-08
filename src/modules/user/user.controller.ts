@@ -4,13 +4,17 @@ import {
     Controller,
     Get,
     HttpCode,
+    HttpException,
     HttpStatus,
+    Param,
+    ParseIntPipe,
     Query,
+    UnauthorizedException,
     UseGuards,
     UseInterceptors,
     ValidationPipe,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { AuthGuard } from '../../guards/auth.guard';
 import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.service';
@@ -38,5 +42,25 @@ export class UserController {
         pageOptionsDto: UsersPageOptionsDto,
     ): Promise<UsersPageDto> {
         return this._userService.getUsers(pageOptionsDto);
+    }
+
+    // for Unittest demo, not works in real
+    @Get('users/:userId/koreanName')
+    @HttpCode(HttpStatus.OK)
+    @ApiOkResponse()
+    async getKoreanUserName(
+        @Param('userId',  new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) 
+        userId: number
+    ) {
+        if (userId >= 1000) {
+            throw new UnauthorizedException()
+        }
+        
+        const { name, statusCode } = await this._userService.getKoreanUserNameByUserId(userId)
+
+        return {
+            koreanName: name,
+            statusCode: statusCode
+        }
     }
 }

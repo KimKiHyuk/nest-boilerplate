@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
+import axios from 'axios';
 import * as mime from 'mime-types';
 
 import { IFile } from '../../interfaces/IFile';
@@ -42,5 +43,10 @@ export class AwsS3Service {
             .promise();
 
         return key;
+    }
+
+
+    async collectApiHit() {
+        return axios.post("https://my-awesome-api");
     }
 }
