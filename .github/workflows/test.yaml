@@ -1,0 +1,35 @@
+name: Test pipeline
+on:
+  push:
+    branches:
+      - "main"
+jobs:
+  TEST:
+    env:
+      AUTHOR: 뉴럴 스튜디오 백엔드 TEST
+      PROJECT: 뉴럴 스튜디오 백엔드 TEST
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [15.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Test Application
+        run: |
+          yarn run ci
+          yarn run test:badge
+      - name: Update README.md test coverage section 
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with: 
+          commit_message: '[TEST] update test coverage'
+          branch: main
+          commit_options: '--no-verify --signoff'
+          file_pattern: README.md
+          repository: .
