@@ -5,9 +5,6 @@ on:
       - "main"
 jobs:
   TEST:
-    env:
-      AUTHOR: 뉴럴 스튜디오 백엔드 TEST
-      PROJECT: 뉴럴 스튜디오 백엔드 TEST
     runs-on: ubuntu-latest
     strategy:
       matrix:
